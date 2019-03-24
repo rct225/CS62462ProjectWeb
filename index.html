@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="js/d3.layout.cloud.js"></script>
+    <script src="js/gauge.js"></script>
+    <script src="js/drawCloud.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Explore
+                </a>
+            </li>
+            <li>
+                <a href="#">Main Page</a>
+            </li>
+            <li>
+                <a href="#">Pick a Song</a>
+            </li>
+            <li>
+                <a href="#">Pick and Artist</a>
+            </li>
+            <li>
+                <a href="#">Predict Rank</a>
+            </li>
+            <li>
+                <a href="#">About</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                    Year
+                </div>
+                <div class="col-6">
+                    Average Acoustic Characteristics
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        Stemmed Words
+                        <svg id="stemmed-word-cloud" width="300" height="300"></svg>
+                    </div>
+                    <div class="row">
+                        Average Sentiments
+                        <div class="row">
+                            <div class="col-4" id="gauge1">
+                            </div>
+                            <div class="col-4" id="gauge2">
+                            </div>
+                            <div class="col-4" id="gauge3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <script>
+        function onDocumentReady() {
+            var powerGauge1 = gauge('#gauge1', {
+                size: 100,
+                clipWidth: 100,
+                clipHeight: 100,
+                ringWidth: 60,
+                maxValue: 10,
+                transitionMs: 1000,
+            });
+            powerGauge1.render();
+
+            powerGauge1.update(5);
+
+            var powerGauge2 = gauge('#gauge2', {
+                size: 100,
+                clipWidth: 100,
+                clipHeight: 100,
+                ringWidth: 60,
+                maxValue: 10,
+                transitionMs: 1000,
+            });
+            powerGauge2.render();
+
+            powerGauge2.update(5);
+
+            var powerGauge3 = gauge('#gauge3', {
+                size: 100,
+                clipWidth: 100,
+                clipHeight: 100,
+                ringWidth: 60,
+                maxValue: 10,
+                transitionMs: 1000,
+            });
+            powerGauge3.render();
+
+            powerGauge3.update(5);
+
+        }
+
+        if ( !window.isLoaded ) {
+            window.addEventListener("load", function() {
+                onDocumentReady();
+            }, false);
+        } else {
+            onDocumentReady();
+        }
+    </script>
+
+</body>
+</html>
