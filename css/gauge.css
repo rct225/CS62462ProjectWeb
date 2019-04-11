@@ -1,15 +1,17 @@
-#power-gauge g.arc {
-    fill: steelblue;
+/* Fill color for the first group */
+.chart-color1 {
+    fill: #dea82c;
 }
-
-#power-gauge g.pointer {
-    fill: #e85116;
-    stroke: #b64011;
+/* Fill color for the second group */
+.chart-color2 {
+    fill: #e9621a;
 }
-
-#power-gauge g.label text {
-    text-anchor: middle;
-    font-size: 14px;
-    font-weight: bold;
-    fill: #666;
+/* Fill color for the third group */
+.chart-color3 {
+    fill: #e92213;
+}
+/* Fill color for the needle */
+.needle,
+.needle-center {
+    fill: #464A4F;
 }
