@@ -5,68 +5,46 @@ var margin = {top: 30, right: 0, bottom: 30, left: 50},
     height = 210 - margin.top - margin.bottom;
 
 //Read the data
-d3.tsv("song_master_list.tsv", function(data) {
-
-    // group the data: I want to draw one line per group
-    var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
-        .key(function(d) { return d.name;})
-        .entries(data);
-
-    // What is the list of groups?
-    allKeys = sumstat.map(function(d){return d.key})
-
-    // Add an svg element for each group. The will be one beside each other and will go on the next row when no more room available
-    var svg = d3.select("#my_dataviz")
-        .selectAll("uniqueChart")
-        .data(sumstat)
-        .enter()
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-
-    // Add X axis --> it is a date format
-    var x = d3.scaleLinear()
-        .domain(d3.extent(data, function(d) { return d.year; }))
-        .range([ 0, width ]);
-
-    svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).ticks(3));
-
-    //Add Y axis
-    var y = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return +d.n; })])
-        .range([ height, 0 ]);
-
-    svg.append("g")
-        .call(d3.axisLeft(y).ticks(5));
-
-    // color palette
-    var color = d3.scaleOrdinal()
-        .domain(allKeys)
-        .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
-
-    // Draw the line
-    svg.append("path")
-        .attr("fill", "none")
-        .attr("stroke", function(d){ return color(d.key) })
-        .attr("stroke-width", 1.9)
-        .attr("d", function(d){
-            return d3.line()
-                .x(function(d) { return x(d.year); })
-                .y(function(d) { return y(+d.n); })
-                (d.values)
-        })
-
-    // Add titles
-    svg.append("text")
-        .attr("text-anchor", "start")
-        .attr("y", -5)
-        .attr("x", 0)
-        .text(function(d){ return(d.key)})
-        .style("fill", function(d){ return color(d.key) })
-
+d3.tsv("./master_list_with_year.tsv").then(function(data) {
+    data.forEach(function(d) {
+        d.key = parseInt(d.key);
+        d.danceability = parseFloat(d.danceability);
+        d.loudness = parseFloat(d.loudness);
+        d.energy = parseFloat(d.energy);
+        d.loudness	 = parseFloat(d.loudness);
+        d.mode = parseFloat(d.mode);
+        d.speechiness = parseFloat(d.speechiness);
+        d.acousticness = parseFloat(d.acousticness);
+        d.instrumentalness = parseFloat(d.instrumentalness);
+        d.liveness = parseFloat(d.liveness);
+        d.valence = parseFloat(d.valence);
+       // console.log(d.year);
+       // console.log(d.danceability);
+    })
+    gby = d3.nest()
+        .key(function(d) { return d.year;})
+        .rollup( function(d) {
+            return {
+                meanKey:  d3.mean(d, function(g) { return g.key; }),
+                meanDanceability:  d3.mean(d, function(g) { return g.danceability; }),
+                meanLoudness:  d3.mean(d, function(g) { return g.loudness; }),
+                meanEnergy:  d3.mean(d, function(g) { return g.energy; }),
+                meanLoudness:  d3.mean(d, function(g) { return g.loudness; }),
+                meanMode:  d3.mean(d, function(g) { return g.mode; }),
+                meanSpeechiness:  d3.mean(d, function(g) { return g.speechiness; }),
+                meanAcousticness:  d3.mean(d, function(g) { return g.acousticness; }),
+                meanInstrumentalness:  d3.mean(d, function(g) { return g.instrumentalness; }),
+                meanLiveness:  d3.mean(d, function(g) { return g.liveness; }),
+                meanValence:  d3.mean(d, function(g) { return g.valence; })
+            }
+        }).entries(data);
+    return gby;
+})
+//     .then(function(value) {
+//     return Promise.all(value.map(function (results) {
+//         return [results];
+//     }))
+// })
+    .then(function(list) {
+    console.log(list);
 });
