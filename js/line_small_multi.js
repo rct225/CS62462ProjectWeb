@@ -18,9 +18,20 @@ d3.tsv("./master_list_with_year.tsv").then(function(data) {
         d.instrumentalness = parseFloat(d.instrumentalness);
         d.liveness = parseFloat(d.liveness);
         d.valence = parseFloat(d.valence);
+        d.peak_position = parseInt(d.peak_position);
        // console.log(d.year);
        // console.log(d.danceability);
     })
+
+    var dataPositionFiltered = data.filter(function(d) {
+        return d.peak_position <= 3;
+    });
+
+    var dataYearFiltered = dataPositionFiltered.filter(function (d) {
+        // var year = parseInt(d.year);
+        return parseInt(d.year) >= 2016;
+    });
+
     gby = d3.nest()
         .key(function(d) { return d.year;})
         .rollup( function(d) {
@@ -37,7 +48,7 @@ d3.tsv("./master_list_with_year.tsv").then(function(data) {
                 meanLiveness:  d3.mean(d, function(g) { return g.liveness; }),
                 meanValence:  d3.mean(d, function(g) { return g.valence; })
             }
-        }).entries(data);
+        }).entries(dataYearFiltered);
     return gby;
 })
 //     .then(function(value) {
