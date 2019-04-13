@@ -67,6 +67,17 @@ function change(startYear, endYear, startPos, endPos) {
             return (year >= startYear && year <= endYear);
         });
 
+        var allwords = "";
+        var dataWordFreq = dataYearFiltered.map( function (d) {
+            var words = d.stemmed_words;
+            // console.log(words);
+            allwords += words;
+            // return getWordFreq(words);
+        });
+
+        var allWordFreq = getWordFreq(allwords);
+        // console.log(dataWordFreq);
+        console.log(allWordFreq);
 
         var songCharacteristicsByYear = d3.nest()
             .key(function (d) {
@@ -114,7 +125,7 @@ function change(startYear, endYear, startPos, endPos) {
             return g.positive_sentiments - g.negative_sentiments;
         });
 
-        return [songCharacteristicsByYear, sentimentsPerPeriod];
+        return [songCharacteristicsByYear, sentimentsPerPeriod, allWordFreq];
     }).then(function (list) {
 
         // console.log(list);
@@ -132,6 +143,9 @@ function change(startYear, endYear, startPos, endPos) {
 
         sentimentData = list[1];
         drawGauges(sentimentData);
+
+        var wordFreq = list[2];
+        wordCloud(wordFreq);
 
         drawGraph(characteristicData);
     });
@@ -253,6 +267,14 @@ function drawGauges(data) {
 
 }
 
+function getWordFreq(data) {
+    var wordsArray = splitByWords(data);
+    console.log(wordsArray);
+    var wordsMap = createWordMap(wordsArray);
+    var finalWordsArray = sortByCount(wordsMap);
+    return finalWordsArray.slice(0, 21);
+}
+
 function splitByWords (text) {
     // split string by spaces (including spaces, tabs, and newlines)
     var wordsArray = text.split(/\s+/);
@@ -301,4 +323,25 @@ function sortByCount (wordsMap) {
 
     return finalWordsArray;
 
+}
+
+function wordCloud(words) {
+
+    var wordArr = words.map(function(results, i) {
+        return ['' + results.name + '', (words.length - i ) / 2];
+    });
+
+    console.log(wordArr);
+    var wcOptions = {
+        gridSize: 10,
+        weightFactor: 10,
+        fontFamily: 'Average, Times, serif',
+        color: function() {
+            return (['#000000', '#ffffff', '#44f'])[Math.floor(Math.random() * 3)]
+        },
+        backgroundColor: '#808080'
+    }
+
+    var options = Object.assign({}, wcOptions, {list: wordArr});
+    return WordCloud(document.getElementById("stemmed-word-cloud"), options);
 }
