@@ -9,8 +9,8 @@
     <script src=" https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/d3-simple-gauge.js"></script>
     <script src="js/wordcloud2.js"></script>
-    <script src="js/newCloud.js"></script>
-    <script src="js/line_small_multi.js"></script>
+
+
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/gauge.css">
 </head>
@@ -49,10 +49,53 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2">
-                    Year
+                        <div class="row">Years</div>
+                        <div class="row">
+                            <div class="col-6" >
+                                <div class="form-group" id="f1">
+                                    <label for="mySelect1">From:</label>
+                                    <!--<script type="text/javascript" src="js/selector.js"></script>-->
+                                    <!--<label for="sel1">From:</label>-->
+                                    <!--<select id="sel1"></select>-->
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group" id="f2">
+                                    <label for="mySelect2">To:</label>
+                                    <!--<script type="text/javascript" src="js/selector.js"></script>-->
+                                    <!--<label for="sel2">To:</label>-->
+                                    <!--<select id="sel2"></select>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">Ranking</div>
+                        <div class="row">
+
+                            <div class="col-6" >
+                                <div class="form-group" id="f3">
+                                    <label for="mySelect3">Start:</label>
+                                    <!--<script type="text/javascript" src="js/selector.js"></script>-->
+                                    <!--<label for="sel1">From:</label>-->
+                                    <!--<select id="sel1"></select>-->
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group" id="f4">
+                                    <label for="mySelect1">End:</label>
+                                    <!--<script type="text/javascript" src="js/selector.js"></script>-->
+                                    <!--<label for="sel2">To:</label>-->
+                                    <!--<select id="sel2"></select>-->
+                                </div>
+                            </div>
+
+                        </div>
+                        <script type="text/javascript" src="js/selector.js"></script>
+                        <div class="row">
+                            <button type="button" class="btn btn-primary" id="change_btn" onclick="update()">Change</button>
+                        </div>
                 </div>
                 <div id="my_dataviz" class="col-6">
-                    <textarea id="ex1" rows="15" cols="90"></textarea>
+                    <!--<textarea id="ex1" rows="15" cols="90"></textarea>-->
                     <!--Average Acoustic Characteristics-->
                 </div>
                 <div class="col-4">
@@ -60,18 +103,19 @@
                         <div class="row">
                             <canvas id="stemmed-word-cloud" width="300" height="300"></canvas>
                         </div>
-                        Average Sentiments
-                        <div class="row">
-                            <div class="col-4">
-                                Negative
-                            </div>
-                            <div class="col-4">
-                                Neutral
-                            </div>
-                            <div class="col-4">
-                                Positive
-                            </div>
-                        </div>
+                        <script src="js/newCloud.js"></script>
+                        Average Sentiment
+                        <!--<div class="row">-->
+                            <!--<div class="col-4">-->
+                                <!--Negative-->
+                            <!--</div>-->
+                            <!--<div class="col-4">-->
+                                <!--Neutral-->
+                            <!--</div>-->
+                            <!--<div class="col-4">-->
+                                <!--Positive-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="row">
                             <div class="col-4" id="gauge1">
                             </div>
@@ -85,70 +129,7 @@
             </div>
         </div>
     </div>
+    <script src="js/line_small_multi.js"></script>
     <!-- /#page-content-wrapper -->
-    <script>
-        function onDocumentReady() {
-            const svg1 = d3.select('#gauge1')
-                .append('svg')
-                .attr('width', 150)
-                .attr('height', 150);
-
-            const gauge1 = new window.d3SimpleGauge.SimpleGauge({
-                barWidth: 10,
-                needleRadius: 3,
-                el: svg1.append('g'),
-                height:  150,
-                interval: [0, 200],
-                sectionsCount: 3,
-                width: 150,
-            });
-
-            gauge1.value = 100;
-
-            const svg2 = d3.select('#gauge2')
-                .append('svg')
-                .attr('width', 150)
-                .attr('height', 150);
-
-            const gauge2 = new window.d3SimpleGauge.SimpleGauge({
-                barWidth: 10,
-                needleRadius: 3,
-                el: svg2.append('g'),
-                height:  150,
-                interval: [0, 200],
-                sectionsCount: 3,
-                width: 150,
-            });
-
-            gauge2.value = 100;
-
-            const svg3 = d3.select('#gauge3')
-                .append('svg')
-                .attr('width', 150)
-                .attr('height', 150);
-
-            const gauge3 = new window.d3SimpleGauge.SimpleGauge({
-                barWidth: 10,
-                needleRadius: 3,
-                el: svg3.append('g'),
-                height:  150,
-                interval: [0, 200],
-                sectionsCount: 3,
-                width: 150,
-            });
-
-            gauge3.value = 100;
-
-        }
-
-        if ( !window.isLoaded ) {
-            window.addEventListener("load", function() {
-                onDocumentReady();
-            }, false);
-        } else {
-            onDocumentReady();
-        }
-    </script>
-
 </body>
 </html>
